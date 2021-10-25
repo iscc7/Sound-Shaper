@@ -1,6 +1,5 @@
 import numpy as np
 import pyaudio
-from pyaudio import PyAudio
 
 
 class sound:
