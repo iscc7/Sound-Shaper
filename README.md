@@ -15,3 +15,4 @@ it's a Python Project which you can manipualte wave as you wish!
 
 负责处理一切有关音频的服务
 
+使用 <pip install -r requirements.txt> 安装工程所需要的依赖
