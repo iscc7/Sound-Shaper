@@ -1,4 +1,4 @@
-# Sound-Shap
+# Sound-Shaper
 it's a Python Project which you can manipualte wave as you wish! 
 
 本工程允许用户拖拽一个波形，生成想要的外观，并将这个波形播放出来
