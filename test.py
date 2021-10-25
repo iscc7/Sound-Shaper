@@ -15,10 +15,12 @@ tmp = pp.getData()
 line = BSpline().calc(tmp, sample=100)
 x = tmp[:, 0]
 y = tmp[:, 1]
+
+
 sd = sound()
 sd.soundGen(line, fs=100*440, time=1)
 sd.play()
 
 plt.plot(line[0], line[1])
-plt.plot(x, y, '--',marker='o')
+plt.plot(x, y, '--', marker='o')
 plt.show()
