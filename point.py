@@ -1,7 +1,7 @@
 import numpy as np
 
 
-class EdgePoint():
+class EdgePoint:
     start = np.array([0.0, 0.0])
     end = np.array([1.0, 0.0])
 
@@ -12,7 +12,7 @@ class EdgePoint():
         self.end[1] = y
 
 
-class AnchorPoint():
+class AnchorPoint:
     anchors = np.array([[0.0, 0.0]] * 5)
 
     def setAnchors(self, index, x, y):
@@ -42,6 +42,12 @@ class AnchorPoint():
 
 
 class PointData(EdgePoint, AnchorPoint):
+    def __init__(self):
+        self.setStart(0)
+        self.setEnd(0)
+        for i in range(5):
+            x = (0.2 + i / 5.0) * 0.8
+            self.setAnchors(i, x, 0)
 
     def getData(self):
         tmp = [it for it in self.anchors]
@@ -49,6 +55,8 @@ class PointData(EdgePoint, AnchorPoint):
         tmp.append(self.end)
         return np.array(tmp)
 
+    def size(self):
+        return len(self.anchors) + 1
 
 if __name__ == '__main__':
     pp = PointData()

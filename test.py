@@ -11,6 +11,7 @@ pp.setAnchors(1, 0.3, -1)
 pp.setAnchors(2, 0.35, 6)
 pp.setAnchors(3, 0.5, 4)
 pp.setAnchors(4, 0.6, 0)
+pp.insert(0.9, -10)
 tmp = pp.getData()
 line = BSpline().calc(tmp, sample=100)
 x = tmp[:, 0]
