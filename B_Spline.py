@@ -5,7 +5,7 @@ from matplotlib import pyplot as plt
 
 class BSpline:
 
-    def calc(self, point, k=3, sample=1000):
+    def calc(self, point, k=3, sample=100):
         ctr = np.array(point)
         x = ctr[:, 0]
         y = ctr[:, 1]

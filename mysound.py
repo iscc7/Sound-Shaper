@@ -3,8 +3,8 @@ import pyaudio
 
 
 class sound:
-    fs = 0.0
-    Fre = 440.0
+    fs = 0
+    Fre = 440
     sd = []
 
     def soundGen(self, sample, time, fs):
@@ -25,12 +25,13 @@ class sound:
         self.Fre = f
 
     def play(self):
-        p: PyAudio = pyaudio.PyAudio()
+        p = pyaudio.PyAudio()
         stream = p.open(channels=1,
                         format=pyaudio.paInt32,
                         output=True,
                         rate=self.fs)
-        stream.write(self.sd.tobytes())  # 这里需要将float转成bytes类型输出到缓冲流流
+        # 这里需要将float转成bytes类型输出到缓冲流流
+        stream.write(self.sd.tobytes())
         stream.stop_stream()
         stream.close()
 
