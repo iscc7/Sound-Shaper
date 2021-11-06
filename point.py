@@ -47,7 +47,32 @@ class PointData(EdgePoint, AnchorPoint):
         self.setEnd(0)
         for i in range(5):
             x = (0.2 + i / 5.0) * 0.8
-            self.setAnchors(i, x, 0)
+            super().setAnchors(i, x, 0)
+
+    def setAnchors(self, index, x, y):
+        """
+        rewrite steAanchors and limited bounds
+        :param index: index of point
+        :param x: x in axis
+        :param y: y in axis
+        :return: None
+        """
+        if index == 0:
+            left = self.start
+            right = self.anchors[index + 1]
+        elif index == self.size() - 2:
+            left = self.anchors[index - 1]
+            right = self.end
+        else:
+            left = self.anchors[index - 1]
+            right = self.anchors[index + 1]
+        if x > right[0]:
+            self.anchors[index][0] = right[0] - 0.001
+        elif x < left[0]:
+            self.anchors[index][0] = left[0] + 0.001
+        else:
+            self.anchors[index][0] = x
+        self.anchors[index][1] = y
 
     def getData(self):
         tmp = [it for it in self.anchors]
