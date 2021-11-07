@@ -12,10 +12,12 @@ from point import PointData
 from B_Spline import BSpline
 from mysound import sound
 
+
 class MyFigureCanvas(FigureCanvas):
 
     showverts = True
     epsilon = 10
+
     def __init__(self):
         # create a canvas
 
@@ -34,10 +36,9 @@ class MyFigureCanvas(FigureCanvas):
         poly = Polygon(self.xy, animated=True, closed=False)
         self.poly = poly
         self.axes.add_patch(poly)
-        self.mpl_connect('button_press_event', self._button_press_callback)
-        self.mpl_connect('button_release_event', self._button_release_callback)
-        self.mpl_connect('motion_notify_event', self._motion_notify_callback)
-
+        self.mpl_connect('button_press_event', self.__button_press_callback)
+        self.mpl_connect('button_release_event', self.__button_release_callback)
+        self.mpl_connect('motion_notify_event', self.__motion_notify_callback)
 
     def FigInit(self):
         import random
@@ -79,12 +80,11 @@ class MyFigureCanvas(FigureCanvas):
         d = np.sqrt((xt - event.x) ** 2 + (yt - event.y) ** 2)
         indseq = np.nonzero(np.equal(d, np.amin(d)))[0]
         ind = indseq[0]
-
         if d[ind] >= self.epsilon:
             ind = None
         return ind
 
-    def _button_press_callback(self, event):
+    def __button_press_callback(self, event):
         # 鼠标按下事件处理
         if not self.showverts:
             return
@@ -94,7 +94,7 @@ class MyFigureCanvas(FigureCanvas):
             return
         self._ind = self._get_ind_under_point(event)
 
-    def _button_release_callback(self, event):
+    def __button_release_callback(self, event):
         # 鼠标松开事件处理
         if not self.showverts:
             return
@@ -102,7 +102,7 @@ class MyFigureCanvas(FigureCanvas):
             return
         self._ind = None
 
-    def _motion_notify_callback(self, event):
+    def __motion_notify_callback(self, event):
         # 鼠标移动事件处理
         if not self.showverts:
             return
@@ -116,12 +116,13 @@ class MyFigureCanvas(FigureCanvas):
         x, y = event.xdata, event.ydata
         # update x and y
         self.poly.xy[self._ind] = x, y
-        if self._ind == 0:
+        if self._ind <= 0:
             self.CtrlPoints.setStart(y)
-        elif self._ind == self.CtrlPoints.size():
+        elif self._ind >= self.CtrlPoints.size() + 1:
             self.CtrlPoints.setEnd(y)
         else:
-            self.CtrlPoints.setAnchors(self._ind - 1, x, y)
+            # rewrite x,y with limited bounds
+            self.poly.xy[self._ind] = self.CtrlPoints.setAnchors(self._ind - 1, x, y)
         # refresh figure
         self.FigReGen()
 
@@ -150,7 +151,7 @@ class MainWindow():
 
     def _soundPlay(self):
         shape = self.plt.GetShape()
-        self.sd.soundGen(shape, self.Durtime, 100 * self.sd.Fre)
+        self.sd.soundGen(shape, self.Durtime, 100)
         self.sd.play()
 
 if __name__ == '__main__':
