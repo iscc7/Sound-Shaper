@@ -6,6 +6,12 @@ from matplotlib import pyplot as plt
 class BSpline:
 
     def calc(self, point, k=3, sample=100):
+        """
+        :param point: ctrl point
+        :param k: degrees
+        :param sample: Length of the output.
+        :return: B Spline curve witch is a list contain sequence of x,y
+        """
         ctr = np.array(point)
         x = ctr[:, 0]
         y = ctr[:, 1]

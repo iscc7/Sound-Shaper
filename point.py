@@ -47,7 +47,34 @@ class PointData(EdgePoint, AnchorPoint):
         self.setEnd(0)
         for i in range(5):
             x = (0.2 + i / 5.0) * 0.8
-            self.setAnchors(i, x, 0)
+            super().setAnchors(i, x, 0)
+
+    def setAnchors(self, index, x, y):
+        """
+        rewrite steAanchors and limited bounds
+        :param index: index of point
+        :param x: x in axis
+        :param y: y in axis
+        :return: set x,y coordinates
+        """
+        bais = 0.01
+        if index <= 0:
+            left = self.start
+            right = self.anchors[index + 1]
+        elif index >= self.size() - 1:
+            left = self.anchors[index - 1]
+            right = self.end
+        else:
+            left = self.anchors[index - 1]
+            right = self.anchors[index + 1]
+        if x > right[0] - bais:
+            self.anchors[index][0] = right[0] - bais
+        elif x < left[0] + bais:
+            self.anchors[index][0] = left[0] + bais
+        else:
+            self.anchors[index][0] = x
+        self.anchors[index][1] = y
+        return [self.anchors[index][0], self.anchors[index][1]]
 
     def getData(self):
         tmp = [it for it in self.anchors]
@@ -56,7 +83,8 @@ class PointData(EdgePoint, AnchorPoint):
         return np.array(tmp)
 
     def size(self):
-        return len(self.anchors) + 1
+        return len(self.anchors)
+
 
 if __name__ == '__main__':
     pp = PointData()
