@@ -19,7 +19,7 @@ y = tmp[:, 1]
 
 
 sd = sound()
-sd.soundGen(line, fs=100*440, time=1)
+print(sd.soundGen(line, Fstimes=100, Durtime=1))
 sd.play()
 
 plt.plot(line[0], line[1])
